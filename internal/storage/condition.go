@@ -1,6 +1,6 @@
 package storage
 
-import "longhorn/proxy/internal/constants/enum"
+import "longhorn/proxy-admin/internal/constants/enum"
 
 type Condition struct {
 	Key string

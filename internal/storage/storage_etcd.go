@@ -6,7 +6,7 @@ import (
 	context2 "github.com/profzone/eden-framework/pkg/context"
 	"github.com/sirupsen/logrus"
 	"go.etcd.io/etcd/clientv3"
-	"longhorn/proxy/internal/global"
+	"longhorn/proxy-admin/internal/global"
 	"math"
 	"sync"
 	"time"

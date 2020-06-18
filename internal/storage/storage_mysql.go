@@ -5,7 +5,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/profzone/eden-framework/pkg/context"
 	"github.com/sirupsen/logrus"
-	"longhorn/proxy/internal/global"
+	"longhorn/proxy-admin/internal/global"
 	"sync"
 
 	_ "github.com/go-sql-driver/mysql"

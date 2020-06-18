@@ -1,4 +1,4 @@
-module longhorn/proxy
+module longhorn/proxy-admin
 
 go 1.13
 

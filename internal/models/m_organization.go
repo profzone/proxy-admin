@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"longhorn/proxy/internal/global"
-	"longhorn/proxy/internal/storage"
+	"longhorn/proxy-admin/internal/global"
+	"longhorn/proxy-admin/internal/storage"
 )
 
 type Organization struct {

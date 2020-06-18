@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"errors"
-	"longhorn/proxy/internal/global"
+	"longhorn/proxy-admin/internal/global"
 	"strconv"
 	"sync"
 	"time"

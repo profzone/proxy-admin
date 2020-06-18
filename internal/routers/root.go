@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/swagger"
-	v0 "longhorn/proxy/internal/routers/v0"
+	v0 "longhorn/proxy-admin/internal/routers/v0"
 )
 
 var RootRouter = courier.NewRouter(RootGroup{})

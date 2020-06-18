@@ -4,10 +4,10 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/models"
-	"longhorn/proxy/internal/storage"
-	"longhorn/proxy/pkg"
-	"longhorn/proxy/pkg/http"
+	"longhorn/proxy-admin/internal/models"
+	"longhorn/proxy-admin/internal/storage"
+	"longhorn/proxy-admin/pkg"
+	"longhorn/proxy-admin/pkg/http"
 )
 
 func init() {

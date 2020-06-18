@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"longhorn/proxy/internal/constants/enum"
-	"longhorn/proxy/internal/global"
-	"longhorn/proxy/internal/storage"
-	"longhorn/proxy/pkg"
+	"longhorn/proxy-admin/internal/constants/enum"
+	"longhorn/proxy-admin/internal/global"
+	"longhorn/proxy-admin/internal/storage"
+	"longhorn/proxy-admin/pkg"
 )
 
 type Cluster struct {

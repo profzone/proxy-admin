@@ -3,8 +3,8 @@ package storage
 import (
 	"github.com/profzone/eden-framework/pkg/context"
 	"github.com/sirupsen/logrus"
-	"longhorn/proxy/internal/constants/enum"
-	"longhorn/proxy/internal/global"
+	"longhorn/proxy-admin/internal/constants/enum"
+	"longhorn/proxy-admin/internal/global"
 )
 
 type Storage interface {

@@ -2,10 +2,10 @@ package v0
 
 import (
 	"github.com/profzone/eden-framework/pkg/courier"
-	"longhorn/proxy/internal/routers/v0/apis"
-	"longhorn/proxy/internal/routers/v0/binds"
-	"longhorn/proxy/internal/routers/v0/clusters"
-	"longhorn/proxy/internal/routers/v0/servers"
+	"longhorn/proxy-admin/internal/routers/v0/apis"
+	"longhorn/proxy-admin/internal/routers/v0/binds"
+	"longhorn/proxy-admin/internal/routers/v0/clusters"
+	"longhorn/proxy-admin/internal/routers/v0/servers"
 )
 
 var Router = courier.NewRouter(V0Group{})

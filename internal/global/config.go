@@ -3,7 +3,7 @@ package global
 import (
 	"github.com/profzone/eden-framework/pkg/courier/transport_grpc"
 	"github.com/profzone/eden-framework/pkg/courier/transport_http"
-	"longhorn/proxy/internal/constants/enum"
+	"longhorn/proxy-admin/internal/constants/enum"
 	"time"
 )
 

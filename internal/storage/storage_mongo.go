@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"longhorn/proxy/internal/global"
+	"longhorn/proxy-admin/internal/global"
 	"strings"
 	"sync"
 	"time"

@@ -5,9 +5,9 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/sirupsen/logrus"
-	"longhorn/proxy/internal/constants/enum"
-	"longhorn/proxy/internal/global"
-	"longhorn/proxy/internal/storage"
+	"longhorn/proxy-admin/internal/constants/enum"
+	"longhorn/proxy-admin/internal/global"
+	"longhorn/proxy-admin/internal/storage"
 )
 
 type API struct {
