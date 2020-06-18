@@ -4,13 +4,10 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"github.com/juju/ratelimit"
 	"github.com/sirupsen/logrus"
-	"github.com/valyala/fasthttp"
 	"longhorn/proxy/internal/constants/enum"
 	"longhorn/proxy/internal/global"
 	"longhorn/proxy/internal/storage"
-	"time"
 )
 
 type API struct {
@@ -25,11 +22,9 @@ type API struct {
 	// 接口状态
 	Status enum.ApiStatus `json:"status" default:"UP"`
 	// IP黑白名单 format: <blacklist(>ip[,]...<)whitelist(>ip[,]...<)>
-	IPControl    string `json:"ipControl,omitempty" default:""`
-	ipController *IPController
+	IPControl string `json:"ipControl,omitempty" default:""`
 	// 最大QPS
-	MaxQPS  int64 `json:"maxQPS,omitempty" default:""`
-	limiter *ratelimit.Bucket
+	MaxQPS int64 `json:"maxQPS,omitempty" default:""`
 	// TODO Validations
 	// 反向代理调度
 	Dispatchers []Dispatcher `json:"dispatcher"`
@@ -55,19 +50,6 @@ func (v *API) Unmarshal(data []byte) (err error) {
 	buf := bytes.NewBuffer(data)
 	dec := gob.NewDecoder(buf)
 	err = dec.Decode(v)
-	if err != nil {
-		return
-	}
-
-	if v.IPControl != "" {
-		v.ipController, err = newIPController(v.IPControl)
-		if err != nil {
-			return
-		}
-	}
-	if v.MaxQPS > 0 {
-		v.limiter = ratelimit.NewBucket(time.Second/time.Duration(v.MaxQPS), v.MaxQPS)
-	}
 	return
 }
 
@@ -79,20 +61,6 @@ func (v *API) WalkDispatcher(walking func(dispatcher *Dispatcher) error) {
 			logrus.Error(err)
 		}
 	}
-}
-
-func (v *API) FilterIPControl(req *fasthttp.Request) bool {
-	if v.ipController != nil {
-		return v.ipController.filter(req)
-	}
-	return true
-}
-
-func (v *API) FilterQPS() bool {
-	if v.limiter != nil && v.limiter.TakeAvailable(1) == 0 {
-		return false
-	}
-	return true
 }
 
 func CreateAPI(c *API, db storage.Storage) (id uint64, err error) {

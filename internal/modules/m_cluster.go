@@ -17,8 +17,6 @@ type Cluster struct {
 	Name string `json:"name"`
 	// 负载均衡类型
 	LoadBalanceType enum.LoadBalanceType `json:"loadBalanceType"`
-	// 负载均衡器
-	loadBalancer LoadBalancer
 }
 
 func (v *Cluster) SetIdentity(id uint64) {
@@ -41,18 +39,6 @@ func (v *Cluster) Unmarshal(data []byte) (err error) {
 	dec := gob.NewDecoder(buf)
 	err = dec.Decode(v)
 	return
-}
-
-func (v *Cluster) InitLoadBalancer() {
-	switch v.LoadBalanceType {
-	case enum.LOAD_BALANCE_TYPE__ROUND_ROBIN:
-		v.loadBalancer = NewRoundRobin()
-	default:
-	}
-}
-
-func (v *Cluster) GetLoadBalancer() LoadBalancer {
-	return v.loadBalancer
 }
 
 func CreateCluster(c *Cluster, db storage.Storage) (id uint64, err error) {
