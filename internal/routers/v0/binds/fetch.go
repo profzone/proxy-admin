@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/modules"
+	"longhorn/proxy/internal/models"
 	"longhorn/proxy/internal/storage"
 )
 
@@ -24,18 +24,18 @@ func (req GetBinds) Path() string {
 }
 
 type GetBindsResult struct {
-	NextID uint64         `json:"nextID"`
-	Data   []modules.Bind `json:"data"`
+	NextID uint64        `json:"nextID"`
+	Data   []models.Bind `json:"data"`
 }
 
 func (req GetBinds) Output(ctx context.Context) (result interface{}, err error) {
 	resp := &GetBindsResult{
 		NextID: 0,
-		Data:   make([]modules.Bind, 0),
+		Data:   make([]models.Bind, 0),
 	}
 
-	resp.NextID, err = modules.WalkBinds(req.ClusterID, 0, -1, func(e storage.Element) error {
-		resp.Data = append(resp.Data, *e.(*modules.Bind))
+	resp.NextID, err = models.WalkBinds(req.ClusterID, 0, -1, func(e storage.Element) error {
+		resp.Data = append(resp.Data, *e.(*models.Bind))
 		return nil
 	}, storage.Database)
 

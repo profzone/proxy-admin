@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/modules"
+	"longhorn/proxy/internal/models"
 	"longhorn/proxy/internal/storage"
 )
 
@@ -26,6 +26,6 @@ func (req DeleteBind) Path() string {
 }
 
 func (req DeleteBind) Output(ctx context.Context) (result interface{}, err error) {
-	err = modules.DeleteBind(req.ClusterID, req.ServerID, storage.Database)
+	err = models.DeleteBind(req.ClusterID, req.ServerID, storage.Database)
 	return
 }

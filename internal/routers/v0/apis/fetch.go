@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/modules"
+	"longhorn/proxy/internal/models"
 	"longhorn/proxy/internal/storage"
 )
 
@@ -26,18 +26,18 @@ func (req GetApis) Path() string {
 }
 
 type GetApisResult struct {
-	NextID uint64        `json:"nextID"`
-	Data   []modules.API `json:"data"`
+	NextID uint64       `json:"nextID"`
+	Data   []models.API `json:"data"`
 }
 
 func (req GetApis) Output(ctx context.Context) (result interface{}, err error) {
 	resp := &GetApisResult{
 		NextID: 0,
-		Data:   make([]modules.API, 0),
+		Data:   make([]models.API, 0),
 	}
 
-	resp.NextID, err = modules.WalkAPIs(req.Start, req.Limit, func(e storage.Element) error {
-		resp.Data = append(resp.Data, *e.(*modules.API))
+	resp.NextID, err = models.WalkAPIs(req.Start, req.Limit, func(e storage.Element) error {
+		resp.Data = append(resp.Data, *e.(*models.API))
 		return nil
 	}, storage.Database)
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/modules"
+	"longhorn/proxy/internal/models"
 	"longhorn/proxy/internal/storage"
 )
 
@@ -24,7 +24,7 @@ func (req GetServer) Path() string {
 }
 
 func (req GetServer) Output(ctx context.Context) (result interface{}, err error) {
-	server, err := modules.GetServer(req.ID, storage.Database)
+	server, err := models.GetServer(req.ID, storage.Database)
 	if err != nil {
 		return
 	}

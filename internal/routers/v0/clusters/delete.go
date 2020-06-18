@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/profzone/eden-framework/pkg/courier"
 	"github.com/profzone/eden-framework/pkg/courier/httpx"
-	"longhorn/proxy/internal/modules"
+	"longhorn/proxy/internal/models"
 	"longhorn/proxy/internal/storage"
 )
 
@@ -24,6 +24,6 @@ func (req DeleteCluster) Path() string {
 }
 
 func (req DeleteCluster) Output(ctx context.Context) (result interface{}, err error) {
-	err = modules.DeleteCluster(req.ID, storage.Database)
+	err = models.DeleteCluster(req.ID, storage.Database)
 	return
 }
