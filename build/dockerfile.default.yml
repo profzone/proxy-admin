@@ -33,9 +33,9 @@ env:
   PROXY_ADMIN_STEPBITS: "12"
   PROXY_ADMIN_USERNAME: ""
 add:
-  ./api/api.json: ./
   ./build/configs: ./configs
   ./build/proxy-admin: ./
+  ./openapi.json: ./
   ./profzone.yml: ./
 expose:
 - "80"
