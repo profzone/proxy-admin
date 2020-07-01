@@ -1,50 +1,120 @@
 kind: pipeline
 type: docker
 volumes:
-- name: workspace
+- name: temp
   temp: {}
 steps:
-- name: master_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run test
-  environment:
-    GOENV: PROD
-  when:
-    branch:
-      include:
-      - master
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: master_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run build
-  environment:
-    GOENV: PROD
-  when:
-    branch:
-      include:
-      - master
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: master_ship
+- name: testFeature_ship
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
   commands:
   - eden ci ship --push
   environment:
-    GOENV: PROD
+    GOENV: TEST
   when:
     branch:
       include:
-      - master
+      - test/feature/*
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
+    path: /go
+- name: testFeature_deploy
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
+  commands:
+  - eden ci deploy
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_test
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  commands:
+  - eden ci run test
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_build
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  commands:
+  - eden ci run build
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: demoFeature_test
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  commands:
+  - eden ci run test
+  environment:
+    GOENV: DEMO
+  when:
+    branch:
+      include:
+      - demo/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: demoFeature_build
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  commands:
+  - eden ci run build
+  environment:
+    GOENV: DEMO
+  when:
+    branch:
+      include:
+      - demo/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: demoFeature_ship
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
+  commands:
+  - eden ci ship --push
+  environment:
+    GOENV: DEMO
+  when:
+    branch:
+      include:
+      - demo/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: demoFeature_deploy
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
+  commands:
+  - eden ci deploy
+  environment:
+    GOENV: DEMO
+  when:
+    branch:
+      include:
+      - demo/feature/*
+      exclude: []
+  volumes:
+  - name: temp
     path: /go
 - name: master_deploy
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
@@ -60,49 +130,49 @@ steps:
       - master
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
-- name: feature_test
+- name: master_test
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
   commands:
   - eden ci run test
   environment:
-    GOENV: STAGING
+    GOENV: PROD
   when:
     branch:
       include:
-      - feature/*
+      - master
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
-- name: feature_build
+- name: master_build
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
   commands:
   - eden ci run build
   environment:
-    GOENV: STAGING
+    GOENV: PROD
   when:
     branch:
       include:
-      - feature/*
+      - master
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
-- name: feature_ship
+- name: master_ship
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
   commands:
   - eden ci ship --push
   environment:
-    GOENV: STAGING
+    GOENV: PROD
   when:
     branch:
       include:
-      - feature/*
+      - master
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
 - name: feature_deploy
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
@@ -116,117 +186,47 @@ steps:
       - feature/*
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
-- name: testFeature_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run build
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: testFeature_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
-  commands:
-  - eden ci ship --push
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: testFeature_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
-  commands:
-  - eden ci deploy
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: testFeature_test
+- name: feature_test
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
   commands:
   - eden ci run test
   environment:
-    GOENV: TEST
+    GOENV: STAGING
   when:
     branch:
       include:
-      - test/feature/*
+      - feature/*
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
     path: /go
-- name: demoFeature_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
-  commands:
-  - eden ci ship --push
-  environment:
-    GOENV: DEMO
-  when:
-    branch:
-      include:
-      - demo/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: demoFeature_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
-  commands:
-  - eden ci deploy
-  environment:
-    GOENV: DEMO
-  when:
-    branch:
-      include:
-      - demo/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: demoFeature_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run test
-  environment:
-    GOENV: DEMO
-  when:
-    branch:
-      include:
-      - demo/feature/*
-      exclude: []
-  volumes:
-  - name: workspace
-    path: /go
-- name: demoFeature_build
+- name: feature_build
   image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
   commands:
   - eden ci run build
   environment:
-    GOENV: DEMO
+    GOENV: STAGING
   when:
     branch:
       include:
-      - demo/feature/*
+      - feature/*
       exclude: []
   volumes:
-  - name: workspace
+  - name: temp
+    path: /go
+- name: feature_ship
+  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
+  commands:
+  - eden ci ship --push
+  environment:
+    GOENV: STAGING
+  when:
+    branch:
+      include:
+      - feature/*
+      exclude: []
+  volumes:
+  - name: temp
     path: /go
