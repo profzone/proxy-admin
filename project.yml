@@ -8,4 +8,4 @@ workflow:
   extends: feature-pr
 scripts:
   build: go build -v -o ./build/$PROJECT_NAME ./cmd && eden generate openapi
-  test: go test
+  test: go test ./cmd
