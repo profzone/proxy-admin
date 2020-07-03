@@ -3,7 +3,6 @@ module longhorn/proxy-admin
 go 1.13
 
 replace (
-	github.com/profzone/eden-framework => /Users/liyiwen/Documents/golang/src/eden/eden-framework
 	github.com/prometheus/prometheus v2.9.2+incompatible => github.com/prometheus/prometheus v2.5.0+incompatible
 	k8s.io/api => k8s.io/api v0.0.0-20190918155943-95b840bb6a1f
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20190918161926-8f644eb6e783
