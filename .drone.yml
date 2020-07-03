@@ -4,64 +4,8 @@ volumes:
 - name: temp
   temp: {}
 steps:
-- name: testFeature_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
-  commands:
-  - eden ci ship --push
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: testFeature_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
-  commands:
-  - eden ci deploy
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: testFeature_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run test
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: testFeature_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run build
-  environment:
-    GOENV: TEST
-  when:
-    branch:
-      include:
-      - test/feature/*
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
 - name: demoFeature_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
   commands:
   - eden ci run test
   environment:
@@ -75,7 +19,7 @@ steps:
   - name: temp
     path: /go
 - name: demoFeature_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
   commands:
   - eden ci run build
   environment:
@@ -89,7 +33,7 @@ steps:
   - name: temp
     path: /go
 - name: demoFeature_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onship:1.14
   commands:
   - eden ci ship --push
   environment:
@@ -103,7 +47,7 @@ steps:
   - name: temp
     path: /go
 - name: demoFeature_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-ondeploy:2.4.3
   commands:
   - eden ci deploy
   environment:
@@ -116,8 +60,50 @@ steps:
   volumes:
   - name: temp
     path: /go
+- name: master_test
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
+  commands:
+  - eden ci run test
+  environment:
+    GOENV: PROD
+  when:
+    branch:
+      include:
+      - master
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: master_build
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
+  commands:
+  - eden ci run build
+  environment:
+    GOENV: PROD
+  when:
+    branch:
+      include:
+      - master
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: master_ship
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onship:1.14
+  commands:
+  - eden ci ship --push
+  environment:
+    GOENV: PROD
+  when:
+    branch:
+      include:
+      - master
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
 - name: master_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-ondeploy:2.4.3
   commands:
   - eden ci deploy --env=STAGING
   - eden ci deploy --env=TEST
@@ -132,64 +118,8 @@ steps:
   volumes:
   - name: temp
     path: /go
-- name: master_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run test
-  environment:
-    GOENV: PROD
-  when:
-    branch:
-      include:
-      - master
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: master_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
-  commands:
-  - eden ci run build
-  environment:
-    GOENV: PROD
-  when:
-    branch:
-      include:
-      - master
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: master_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
-  commands:
-  - eden ci ship --push
-  environment:
-    GOENV: PROD
-  when:
-    branch:
-      include:
-      - master
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
-- name: feature_deploy
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_RANCHER}
-  commands:
-  - eden ci deploy
-  environment:
-    GOENV: STAGING
-  when:
-    branch:
-      include:
-      - feature/*
-      exclude: []
-  volumes:
-  - name: temp
-    path: /go
 - name: feature_test
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
   commands:
   - eden ci run test
   environment:
@@ -203,7 +133,7 @@ steps:
   - name: temp
     path: /go
 - name: feature_build
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_GOLANG}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
   commands:
   - eden ci run build
   environment:
@@ -217,7 +147,7 @@ steps:
   - name: temp
     path: /go
 - name: feature_ship
-  image: ${PROFZONE_DOCKER_REGISTRY}/${BUILDER_DOCKER}
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onship:1.14
   commands:
   - eden ci ship --push
   environment:
@@ -226,6 +156,76 @@ steps:
     branch:
       include:
       - feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: feature_deploy
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-ondeploy:2.4.3
+  commands:
+  - eden ci deploy
+  environment:
+    GOENV: STAGING
+  when:
+    branch:
+      include:
+      - feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_test
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
+  commands:
+  - eden ci run test
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_build
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onbuild:1.14
+  commands:
+  - eden ci run build
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_ship
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-onship:1.14
+  commands:
+  - eden ci ship --push
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
+      exclude: []
+  volumes:
+  - name: temp
+    path: /go
+- name: testFeature_deploy
+  image: registry.cn-hangzhou.aliyuncs.com/profzone/golang-ondeploy:2.4.3
+  commands:
+  - eden ci deploy
+  environment:
+    GOENV: TEST
+  when:
+    branch:
+      include:
+      - test/feature/*
       exclude: []
   volumes:
   - name: temp
