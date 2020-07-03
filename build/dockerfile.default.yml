@@ -1,4 +1,4 @@
-from: ${PROFZONE_DOCKER_REGISTRY}/profzone/golang:runtime
+from: ${PROFZONE_DOCKER_REGISTRY}/profzone/golang-runtime:1.14
 image: ${PROFZONE_DOCKER_REGISTRY}/${PROJECT_GROUP}/${PROJECT_NAME}:${PROJECT_VERSION}
 workdir: /go/bin
 env:
